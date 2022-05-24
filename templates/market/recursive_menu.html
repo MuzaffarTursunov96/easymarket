@@ -1,9 +1,0 @@
-
-<a href="#" class="nav-link" data-toggle="dropdown">  {{ category.name }}<i class="fa fa-angle-down float-right mt-1"></i></a>
-<ul class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-    {% for cat in category.get_children %}   
-        <li>
-            <a href="" class="dropdown-item">{{ cat }}</a>
-        </li>
-    {% endfor %}
-</ul>
