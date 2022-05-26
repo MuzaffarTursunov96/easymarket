@@ -8,20 +8,35 @@ from .serializers import WomenSerializer
 # Create your views here.
 
 
-class WomenAPIView()
-# class WomenAPIView(APIView):
-#     def get(self, request):
-#         lst=Women.objects.all().values()
-#         return Response({'title':list(lst)});
+
+        
+class WomenAPIView(APIView):
+    def get(self, request):
+        lst=Women.objects.all()
+        sr=WomenSerializer(lst,many=True)
+        return Response({'data':sr.data});
     
-#     def post(self, request):
-#         post_new= Women.objects.create(
-#             title=request.data['title'],
-#             content=request.data['content'],
-#             cat_id=request.data['cat_id']
-#         )
-#         # print(request.data)
-#         return Response({'title': model_to_dict(post_new)})
+    def post(self, request):
+        serializer=WomenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'title': serializer.data})
+    
+    def put(self, request, *args,**kwargs):
+        print(kwargs)
+        pk=kwargs.get('pk',None)
+        
+        if not pk :
+            return Response({'error':'Something went wrong'})
+        try:
+            instance=Women.objects.get(pk)
+        except:
+            return Response({'error':'Object does not exists'})
+        print(instance)
+        serializer=WomenSerializer(data=request.data,instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'post':serializer.data})
     
 # class WomenAPIView(generics.ListAPIView):
 #     queryset=Women.objects.all()
