@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from tinfisdemo.views import *
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/womenlist',WomenAPIView.as_view()),
-    path('api/v1/womenlist/<int:pk>',WomenAPIView.as_view())
-]
+routers = DefaultRouter()
+routers.register(r'api/v1/women', WomenAPIViewset, basename='women')
+
+print(routers.urls)
+
+urlpatterns =routers.urls
